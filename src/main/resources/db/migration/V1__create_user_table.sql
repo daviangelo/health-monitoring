@@ -1,5 +1,7 @@
-CREATE TABLE IF NOT EXISTS "user" (
-  id BIGSERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  date_of_birth date NOT NULL
+CREATE SEQUENCE user_id_seq START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE "user" (
+    id BIGSERIAL PRIMARY KEY,
+    date_of_birth DATE NOT NULL,
+    name VARCHAR(255) NOT NULL
 );

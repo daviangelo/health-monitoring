@@ -23,14 +23,14 @@ public class TemperatureRecordEntity {
     @SequenceGenerator(name = "sequence-generator", sequenceName = "temperature_record_id_seq", allocationSize = 1)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Instant date;
+    private Instant recordDate;
 
     @NotNull
     private Double temperature;
@@ -44,7 +44,7 @@ public class TemperatureRecordEntity {
 
         entity.setId(domain.id());
         entity.setUser(UserEntity.toEntity(domain.user()));
-        entity.setDate(domain.date());
+        entity.setRecordDate(domain.recordDate());
         entity.setTemperature(domain.temperature());
         entity.setScale(domain.scale());
 

@@ -23,13 +23,14 @@ public class HeartRateRecordEntity {
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Instant date;
+    private Instant recordDate;
 
     @NotNull
     private Integer beatsPerMinute;
@@ -39,7 +40,7 @@ public class HeartRateRecordEntity {
 
         entity.setId(domain.id());
         entity.setUser(UserEntity.toEntity(domain.user()));
-        entity.setDate(domain.date());
+        entity.setRecordDate(domain.recordDate());
         entity.setBeatsPerMinute(domain.beatsPerMinute());
 
         return entity;

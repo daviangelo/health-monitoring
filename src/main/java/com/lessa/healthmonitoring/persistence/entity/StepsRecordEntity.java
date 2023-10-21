@@ -22,13 +22,14 @@ public class StepsRecordEntity {
     @SequenceGenerator(name = "sequence-generator", sequenceName = "steps_record_id_seq", allocationSize = 1)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Instant date;
+    private Instant recordDate;
 
     @NotNull
     private Long numberOfSteps;
@@ -38,7 +39,7 @@ public class StepsRecordEntity {
 
         entity.setId(domain.id());
         entity.setUser(UserEntity.toEntity(domain.user()));
-        entity.setDate(domain.date());
+        entity.setRecordDate(domain.recordDate());
         entity.setNumberOfSteps(domain.numberOfSteps());
 
         return entity;
