@@ -1,0 +1,29 @@
+version: "2.4"
+services:
+
+  db:
+    image: postgres:15.3-alpine
+    volumes:
+      - db:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_DB: health
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TZ: Europe/Berlin
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:7.2.2-alpine
+    volumes:
+      - redis:/data
+    restart: always
+    ports:
+      - 6379:6379
+
+volumes:
+  db:
+    driver: local
+  redis:
+    driver: local
