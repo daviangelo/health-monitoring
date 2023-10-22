@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface TemperatureService {
 
-    TemperatureRecord recordTemperature(TemperatureRecord temperatureRecord);
+    TemperatureRecord recordTemperature(Long userId, TemperatureRecord temperatureRecord);
 
     List<TemperatureRecord> getTemperatureRecordsPerDay(Long userId, LocalDate date, TemperatureScale scale);
 
-    void delete(TemperatureRecord temperatureRecord);
+    boolean delete(Long temperatureRecordId);
 
 }
