@@ -38,6 +38,9 @@ public class UserEntity {
 
         return entity;
     }
+    public User toDomain() {
+        return new User(this.id, this.name, dateOfBirth);
+    }
 
 
 
