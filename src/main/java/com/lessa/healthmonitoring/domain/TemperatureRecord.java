@@ -1,6 +1,21 @@
 package com.lessa.healthmonitoring.domain;
 
+import lombok.*;
+
 import java.time.Instant;
 
-public record TemperatureRecord(Long id, User user, Instant recordDate, Double temperature, TemperatureScale scale) {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Getter
+@Setter
+public final class TemperatureRecord {
+
+    private  Long id;
+    private  User user;
+    private  Instant recordDate;
+    private Double temperature;
+    private  TemperatureScale scale;
+
 }

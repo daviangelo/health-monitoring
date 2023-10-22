@@ -42,13 +42,20 @@ public class TemperatureRecordEntity {
     public static TemperatureRecordEntity toEntity(TemperatureRecord domain) {
         var entity = new TemperatureRecordEntity();
 
-        entity.setId(domain.id());
-        entity.setUser(UserEntity.toEntity(domain.user()));
-        entity.setRecordDate(domain.recordDate());
-        entity.setTemperature(domain.temperature());
-        entity.setScale(domain.scale());
+        entity.setId(domain.getId());
+        if (domain.getUser() != null) {
+            entity.setUser(UserEntity.toEntity(domain.getUser()));
+        }
+        entity.setRecordDate(domain.getRecordDate());
+        entity.setTemperature(domain.getTemperature());
+        entity.setScale(domain.getScale());
 
         return entity;
+    }
+
+    public TemperatureRecord toDomain() {
+        return new TemperatureRecord(this.getId(), this.getUser().toDomain(), this.getRecordDate(),
+                this.getTemperature(), this.getScale());
     }
 
 

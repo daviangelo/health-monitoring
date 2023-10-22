@@ -109,9 +109,6 @@ class TemperatureServiceSpec extends Specification {
         var userRepository = Mock(UserRepository)
         var temperatureService = new TemperatureServiceImpl(temperatureRepository, userRepository)
 
-        and:
-        var userEntityReturned = new UserEntity(1L, "Michael Gary Scott", LocalDate.of(1965, 3, 15))
-
         when:
         var isUserDeleted = temperatureService.delete(temperatureRecordId)
 
@@ -122,7 +119,7 @@ class TemperatureServiceSpec extends Specification {
 
         where:
         shouldUserBeDeleted | numberOfDeletionCalls | temperatureRecordId | temperatureRecordEntityFounded
-        true                | 1                     | 1L                  | Optional.of(new TemperatureRecordEntity(1L, userEntityReturned, Instant.parse("2023-10-22T18:01:00.00Z"), 36.0d, TemperatureScale.CELSIUS))
+        true                | 1                     | 1L                  | Optional.of(new TemperatureRecordEntity(1L, new UserEntity(1L, "Michael Gary Scott", LocalDate.of(1965, 3, 15)) , Instant.parse("2023-10-22T18:01:00.00Z"), 36.0d, TemperatureScale.CELSIUS))
         false               | 0                     | 2L                  | Optional.empty()
 
     }
