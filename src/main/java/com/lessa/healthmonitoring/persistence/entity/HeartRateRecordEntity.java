@@ -39,10 +39,16 @@ public class HeartRateRecordEntity {
         var entity = new HeartRateRecordEntity();
 
         entity.setId(domain.id());
-        entity.setUser(UserEntity.toEntity(domain.user()));
+        if (domain.user() != null) {
+            entity.setUser(UserEntity.toEntity(domain.user()));
+        }
         entity.setRecordDate(domain.recordDate());
         entity.setBeatsPerMinute(domain.beatsPerMinute());
 
         return entity;
+    }
+
+    public HeartRateRecord toDomain() {
+        return new HeartRateRecord(this.id, this.user.toDomain(), this.recordDate, this.beatsPerMinute);
     }
 }

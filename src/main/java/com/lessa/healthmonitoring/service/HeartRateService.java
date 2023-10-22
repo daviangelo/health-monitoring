@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface HeartRateService {
 
-    HeartRateRecord recordHeartRate(HeartRateRecord heartRateRecord);
+    HeartRateRecord recordHeartRate(Long userId, HeartRateRecord heartRateRecord);
 
     List<HeartRateRecord> getHeartRateRecordsPerDay(Long userId, LocalDate date);
 
-    void delete(Long heartRateRecordId);
+    boolean delete(Long heartRateRecordId);
 
 }
