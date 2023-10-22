@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface StepsService {
 
-    StepsRecord recordSteps(StepsRecord stepsRecord);
+    StepsRecord recordSteps(Long userId, StepsRecord stepsRecord);
 
     List<StepsRecord> getStepsRecordsPerDay(Long userId, LocalDate date);
 
-    Long numberOfStepsPerDay(Long userId, LocalDate date);
+    Long getNumberOfStepsPerDay(Long userId, LocalDate date);
 
     void delete(Long stepsRecordId);
 
