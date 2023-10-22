@@ -38,10 +38,20 @@ public class StepsRecordEntity {
         var entity = new StepsRecordEntity();
 
         entity.setId(domain.id());
-        entity.setUser(UserEntity.toEntity(domain.user()));
+
+        if (domain.user() != null) {
+            entity.setUser(UserEntity.toEntity(domain.user()));
+        }
         entity.setRecordDate(domain.recordDate());
         entity.setNumberOfSteps(domain.numberOfSteps());
 
         return entity;
     }
+
+    public StepsRecord toDomain() {
+        return new StepsRecord(this.getId(), this.getUser().toDomain(), this.getRecordDate(),
+                this.getNumberOfSteps());
+    }
+
+
 }

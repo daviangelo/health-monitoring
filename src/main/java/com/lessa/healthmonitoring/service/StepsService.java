@@ -13,6 +13,6 @@ public interface StepsService {
 
     Long getNumberOfStepsPerDay(Long userId, LocalDate date);
 
-    void delete(Long stepsRecordId);
+    boolean delete(Long stepsRecordId);
 
 }
