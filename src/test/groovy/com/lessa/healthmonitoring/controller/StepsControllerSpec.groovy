@@ -181,7 +181,7 @@ class StepsControllerSpec extends Specification {
 
     }
 
-    def "Should return 404 when try to delete an user with nonexistent id "() {
+    def "Should return 404 when try to delete steps with nonexistent id "() {
         when:
         var result = mvc.perform(
                 delete("/steps/{stepsRecordId}", 1l)
