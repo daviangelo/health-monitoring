@@ -26,6 +26,8 @@ object DependencyVersions {
 	const val spock = "2.4-M1-groovy-4.0"
 	const val testcontainers = "1.18.3"
 	const val jackson = "2.14.0"
+	const val springdoc = "2.2.0"
+
 }
 
 dependencies {
@@ -54,6 +56,10 @@ dependencies {
 
 	implementation("com.fasterxml.jackson.core:jackson-databind")
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${DependencyVersions.springdoc}")
+
+
 }
 
 tasks.withType<Test> {
