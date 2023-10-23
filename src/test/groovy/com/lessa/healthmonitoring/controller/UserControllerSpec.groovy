@@ -161,7 +161,7 @@ class UserControllerSpec extends Specification {
         result.getResponse().getStatus() == 404
     }
 
-    def "Should update an user"() {
+    def "Should delete an user"() {
 
         setup:
         var userEntityToDelete = new UserEntity(null, "Michael Gary Scott", LocalDate.of(1965, 3, 15))
@@ -181,7 +181,7 @@ class UserControllerSpec extends Specification {
 
     }
 
-    def "Should return 404 when try update user with nonexistent id "() {
+    def "Should return 404 when try to delete an user with nonexistent id "() {
         when:
         var result = mvc.perform(
                 delete("/user/{id}", 1)
