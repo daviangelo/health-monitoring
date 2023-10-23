@@ -164,7 +164,7 @@ class TemperatureControllerSpec extends Specification {
 
     }
 
-    def "Should return 404 when try to delete an user with nonexistent id "() {
+    def 'Should return 404 when try to delete an temperature with nonexistent id'() {
         when:
         var result = mvc.perform(
                 delete("/temperature/{temperatureRecordId}", 1l)
