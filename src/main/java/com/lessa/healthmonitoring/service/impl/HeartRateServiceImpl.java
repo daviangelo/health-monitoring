@@ -6,7 +6,10 @@ import com.lessa.healthmonitoring.persistence.repository.HeartRateRepository;
 import com.lessa.healthmonitoring.persistence.repository.UserRepository;
 import com.lessa.healthmonitoring.service.HeartRateService;
 import com.lessa.healthmonitoring.service.exception.UserNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +24,8 @@ public class HeartRateServiceImpl implements HeartRateService {
     private final HeartRateRepository heartRateRepository;
     private final UserRepository userRepository;
 
+    @CacheEvict(value = "heartRateCache", allEntries = true)
+    @Transactional
     @Override
     public HeartRateRecord recordHeartRate(Long userId, HeartRateRecord heartRateRecord) {
         var maybeUser = userRepository.findById(userId);
@@ -35,6 +40,7 @@ public class HeartRateServiceImpl implements HeartRateService {
         }
     }
 
+    @Cacheable(value = "heartRateCache", key ="{#userId, #date.toEpochDay()}" )
     @Override
     public List<HeartRateRecord> getHeartRateRecordsPerDay(Long userId, LocalDate date) {
         var startDate = date.atStartOfDay(ZoneOffset.UTC).toInstant();
@@ -45,6 +51,8 @@ public class HeartRateServiceImpl implements HeartRateService {
         return heartRateRecordsEntity.stream().map(HeartRateRecordEntity::toDomain).toList();
     }
 
+    @CacheEvict(value = "heartRateCache", allEntries = true)
+    @Transactional
     @Override
     public boolean delete(Long heartRateRecordId) {
         var maybeTemperatureRecord = heartRateRepository.findById(heartRateRecordId);

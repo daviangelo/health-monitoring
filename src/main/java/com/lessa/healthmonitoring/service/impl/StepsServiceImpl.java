@@ -6,7 +6,11 @@ import com.lessa.healthmonitoring.persistence.repository.StepsRepository;
 import com.lessa.healthmonitoring.persistence.repository.UserRepository;
 import com.lessa.healthmonitoring.service.StepsService;
 import com.lessa.healthmonitoring.service.exception.UserNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +25,12 @@ public class StepsServiceImpl implements StepsService {
     private final StepsRepository stepsRepository;
     private final UserRepository userRepository;
 
+
+    @Caching(evict = {
+            @CacheEvict(value = "stepsCache", allEntries = true),
+            @CacheEvict(value = "sumStepsCache",allEntries = true)
+    })
+    @Transactional
     @Override
     public StepsRecord recordSteps(Long userId, StepsRecord stepsRecord) {
         var maybeUser = userRepository.findById(userId);
@@ -35,6 +45,7 @@ public class StepsServiceImpl implements StepsService {
         }
     }
 
+    @Cacheable(value = "stepsCache")
     @Override
     public List<StepsRecord> getStepsRecordsPerDay(Long userId, LocalDate date) {
         var startDate = date.atStartOfDay(ZoneOffset.UTC).toInstant();
@@ -45,11 +56,17 @@ public class StepsServiceImpl implements StepsService {
         return stepsRecordsEntity.stream().map(StepsRecordEntity::toDomain).toList();
     }
 
+    @Cacheable(value = "sumStepsCache")
     @Override
     public Long getNumberOfStepsPerDay(Long userId, LocalDate date) {
         return getStepsRecordsPerDay(userId, date).stream().mapToLong(StepsRecord::numberOfSteps).sum();
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "stepsCache", allEntries = true),
+            @CacheEvict(value = "sumStepsCache",allEntries = true)
+    })
+    @Transactional
     @Override
     public boolean delete(Long stepsRecordId) {
         var maybeTemperatureRecord = stepsRepository.findById(stepsRecordId);

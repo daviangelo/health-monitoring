@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Testcontainers
-class UserControllerSpec extends Specification {
+class UserControllerSpec extends IntegrationSpec {
 
     @Autowired
     private MockMvc mvc

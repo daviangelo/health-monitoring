@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Testcontainers
-class HeartRateControllerSpec extends Specification {
+class HeartRateControllerSpec extends IntegrationSpec {
 
     @Autowired
     private MockMvc mvc

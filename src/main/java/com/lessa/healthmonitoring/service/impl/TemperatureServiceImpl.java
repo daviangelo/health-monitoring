@@ -9,6 +9,8 @@ import com.lessa.healthmonitoring.service.TemperatureService;
 import com.lessa.healthmonitoring.service.exception.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ public class TemperatureServiceImpl implements TemperatureService {
     private final TemperatureRepository temperatureRepository;
     private final UserRepository userRepository;
 
+    @CacheEvict(value = "temperatureCache", allEntries = true)
     @Transactional
     @Override
     public TemperatureRecord recordTemperature(Long userId, TemperatureRecord temperatureRecord) {
@@ -40,6 +43,7 @@ public class TemperatureServiceImpl implements TemperatureService {
         }
     }
 
+    @Cacheable(value = "temperatureCache")
     @Override
     public List<TemperatureRecord> getTemperatureRecordsPerDay(Long userId, LocalDate date, TemperatureScale scale) {
 
@@ -64,6 +68,8 @@ public class TemperatureServiceImpl implements TemperatureService {
         return Collections.emptyList();
     }
 
+
+    @CacheEvict(value = "temperatureCache", allEntries = true)
     @Transactional
     @Override
     public boolean delete(Long temperatureRecordId) {

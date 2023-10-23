@@ -2,6 +2,7 @@ package com.lessa.healthmonitoring.domain;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 @AllArgsConstructor
@@ -10,7 +11,7 @@ import java.time.Instant;
 @ToString
 @Getter
 @Setter
-public final class TemperatureRecord {
+public final class TemperatureRecord implements Serializable {
 
     private  Long id;
     private  User user;

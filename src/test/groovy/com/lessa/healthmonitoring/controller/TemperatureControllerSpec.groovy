@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Testcontainers
-class TemperatureControllerSpec extends Specification {
+class TemperatureControllerSpec extends IntegrationSpec {
 
     @Autowired
     private MockMvc mvc

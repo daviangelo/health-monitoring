@@ -6,6 +6,8 @@ import com.lessa.healthmonitoring.persistence.repository.UserRepository;
 import com.lessa.healthmonitoring.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+
+    @CacheEvict(value = "userCache", allEntries = true)
     @Transactional
     @Override
     public User create(User user) {
@@ -25,6 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Cacheable(value = "userCache")
     @Override
     public Page<User> getUsers(Pageable pageable) {
         return toPageDomain(userRepository.findAll(pageable));
@@ -35,6 +40,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).map(UserEntity::toDomain);
     }
 
+
+    @CacheEvict(value = "userCache", allEntries = true)
     @Transactional
     @Override
     public Optional<User> update(Long userId, User user) {
@@ -54,6 +61,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @CacheEvict(value = "userCache", allEntries = true)
     @Transactional
     @Override
     public boolean delete(Long userId) {
