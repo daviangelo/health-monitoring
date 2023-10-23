@@ -8,7 +8,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "user")
+@Table(name = "`user`")
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString

@@ -93,7 +93,7 @@ class HeartRateServiceSpec extends Specification {
     }
 
 
-    def "Should delete a heartRate record"() {
+    def "Should delete a heart rate record"() {
 
         given:
         var heartRateRepository = Mock(HeartRateRepository)
