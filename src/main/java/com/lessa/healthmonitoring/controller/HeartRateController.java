@@ -3,6 +3,7 @@ package com.lessa.healthmonitoring.controller;
 import com.lessa.healthmonitoring.dto.HeartRateRecordDto;
 import com.lessa.healthmonitoring.service.HeartRateService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,7 +35,8 @@ public class HeartRateController {
             @ApiResponse(responseCode = "400", description = "Invalid heart rate and/or user supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "User supplied not found", content = @Content) })
     @PostMapping(path = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HeartRateRecordDto> create(@PathVariable Long userId, @RequestBody HeartRateRecordDto heartRateRecordDto) {
+    public ResponseEntity<HeartRateRecordDto> create(@Parameter( description = "User id to be associated with the record") @PathVariable Long userId,
+                                                     @RequestBody HeartRateRecordDto heartRateRecordDto) {
         var heartRateCreated = HeartRateRecordDto.fromDomain(heartRateService.recordHeartRate(userId, heartRateRecordDto.toDomain()));
         return ResponseEntity.ok(heartRateCreated);
     }
@@ -48,7 +50,9 @@ public class HeartRateController {
             @ApiResponse(responseCode = "404", description = "Heart rate records not found with supplied user id and date",
                     content = @Content) })
     @GetMapping(path = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<HeartRateRecordDto>> getHeartRateRecordsPerDay(@PathVariable Long userId, @RequestParam("date")
+    public ResponseEntity<List<HeartRateRecordDto>> getHeartRateRecordsPerDay(
+            @Parameter( description = "User id associated with the record") @PathVariable Long userId,
+            @Parameter( description = "Date (yyyy-MM-dd) to return records. Will be returned all the records in the select day between 00:00:00 - 23:59:59") @RequestParam("date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         var heartRateRecords = heartRateService.getHeartRateRecordsPerDay(userId, date).stream()
                 .map(HeartRateRecordDto::fromDomain).toList();
@@ -66,7 +70,7 @@ public class HeartRateController {
             @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Heart rate record not found with supplied id", content = @Content) })
     @DeleteMapping(path = "/{heartRateRecordId}")
-    public ResponseEntity<Void> delete(@PathVariable Long heartRateRecordId) {
+    public ResponseEntity<Void> delete(@Parameter(description = "id of heart rate record to be deleted") @PathVariable Long heartRateRecordId) {
         if (heartRateService.delete(heartRateRecordId)) {
             return ResponseEntity.noContent().build();
         }
