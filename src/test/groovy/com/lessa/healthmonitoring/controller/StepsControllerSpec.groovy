@@ -79,7 +79,7 @@ class StepsControllerSpec extends Specification {
 
         setup:
         var stepsRecordToCreate = new StepsRecordDto(null, Instant.parse("2023-10-22T18:00:00.00Z"), 8000l)
-        var expectedApiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "User with id 1 not found to record steps.", ["error occurred"])
+        var expectedApiError = new ApiError(HttpStatus.NOT_FOUND, "User with id 1 not found to record steps.", ["user supplied not found"])
 
         when:
         var result = mvc.perform(
@@ -92,7 +92,7 @@ class StepsControllerSpec extends Specification {
 
 
         then:
-        result.getResponse().getStatus() == 500
+        result.getResponse().getStatus() == 404
         expectedApiError == apiErrorReturned
 
     }

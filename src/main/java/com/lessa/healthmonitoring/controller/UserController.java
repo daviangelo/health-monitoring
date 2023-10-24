@@ -33,10 +33,8 @@ public class UserController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User created",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDto.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid user supplied",
-                    content = @Content) })
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid user supplied", content = @Content) })
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) {
         var userCreated = UserDto.fromDomain(userService.create(userDto.toDomain()));
@@ -48,8 +46,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Page with users returned", useReturnTypeSchema = true,
                     content = { @Content(mediaType = "application/json") }),
-            @ApiResponse(responseCode = "400", description = "Invalid pageable supplied",
-                    content = @Content) })
+            @ApiResponse(responseCode = "400", description = "Invalid pageable supplied", content = @Content) })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<UserDto>> getUsers(@ParameterObject @PageableDefault(size = 12) Pageable pageable) {
        var page = toPageDto(userService.getUsers(pageable));
@@ -59,10 +56,8 @@ public class UserController {
     @Operation(summary = "Get an user by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the user",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDto.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
-                    content = @Content),
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found with supplied id",
                     content = @Content) })
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,12 +72,9 @@ public class UserController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User updated",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserDto.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid user supplied",
-                    content = @Content),
-            @ApiResponse(responseCode = "404", description = "User not found with supplied id",
-                    content = @Content) })
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid user supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found with supplied id", content = @Content) })
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> update(@RequestBody UserDto userDto, @Parameter(description = "id of user to be updated") @PathVariable Long id) {
         var user = userService.update(id, userDto.toDomain()).map(UserDto::fromDomain);
@@ -92,11 +84,9 @@ public class UserController {
 
     @Operation(summary = "Delete an user by its id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "User deleted"),
-            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
-                    content = @Content),
-            @ApiResponse(responseCode = "404", description = "User not found with supplied id",
-                    content = @Content) })
+            @ApiResponse(responseCode = "204", description = "User deleted", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found with supplied id", content = @Content) })
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@Parameter(description = "id of user to be deleted") @PathVariable Long id) {
         if (userService.delete(id)) {

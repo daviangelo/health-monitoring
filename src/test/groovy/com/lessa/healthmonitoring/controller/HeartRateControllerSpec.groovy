@@ -79,7 +79,7 @@ class HeartRateControllerSpec extends IntegrationSpec {
 
         setup:
         var heartRateRecordToCreate = new HeartRateRecordDto(null, Instant.parse("2023-10-22T18:00:00.00Z"), 80)
-        var expectedApiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "User with id 1 not found to record a heart rate.", ["error occurred"])
+        var expectedApiError = new ApiError(HttpStatus.NOT_FOUND, "User with id 1 not found to record a heart rate.", ["user supplied not found"])
 
         when:
         var result = mvc.perform(
@@ -92,7 +92,7 @@ class HeartRateControllerSpec extends IntegrationSpec {
 
 
         then:
-        result.getResponse().getStatus() == 500
+        result.getResponse().getStatus() == 404
         expectedApiError == apiErrorReturned
 
     }
